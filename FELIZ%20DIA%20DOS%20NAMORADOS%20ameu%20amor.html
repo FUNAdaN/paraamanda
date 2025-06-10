@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>FELIZ DIA DOS NAMORADOS MEU AMOR</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #ff66cc;
+      margin: 40px 20px 10px;
+    }
+
+    p.mensagem {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    .contador {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #ffd6f3;
+    }
+
+    .buttons-container {
+      margin: 20px 0 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background-color: #ff66cc;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1em;
+      padding: 12px 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff33aa;
+    }
+
+    button a {
+      color: white;
+      text-decoration: none;
+    }
+
+    iframe.spotify-embed {
+      border-radius: 12px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+      height: 80px;
+      border: none;
+    }
+
+    .fotos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 10px;
+    }
+
+    .foto {
+      flex: 1 1 45%;
+      max-width: 300px;
+      margin-bottom: 20px;
+    }
+
+    .foto img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .foto img:hover {
+      transform: scale(1.05);
+    }
+
+    .foto-texto {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .emoji-heart {
+      position: fixed;
+      font-size: 24px;
+      animation: floatHeart linear infinite;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(30px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .foto {
+        flex: 1 1 40%;
+        max-width: 140px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      p.mensagem {
+        font-size: 1em;
+      }
+
+      .buttons-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>FELIZ DIA DOS NAMORADOS MEU AMOR</h1>
+  <p class="mensagem">HOJE SOMOS NOIVOS AMANDA MAS SIM SEREMOS ETERNOS NAMORADOS</p>
+
+  <div class="contador" id="contador"></div>
+
+  <div class="buttons-container">
+    <button><a href="https://www.exemplo.com" target="_blank" rel="noopener noreferrer">Não clique aqui</a></button>
+  </div>
+
+  <!-- Spotify embed -->
+  <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/4vlVxdnrgXQFZzopvH4vSv?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <div class="fotos-container">
+    <div class="foto">
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="burstHearts(event)" />
+      <div class="foto-texto">EU TE AMO</div>
+    </div>
+    <div class="foto">
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="burstHearts(event)" />
+      <div class="foto-texto">DEMAIS</div>
+    </div>
+    <div class="foto">
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="burstHearts(event)" />
+      <div class="foto-texto">MAIS QUE TUDO</div>
+    </div>
+    <div class="foto">
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="burstHearts(event)" />
+      <div class="foto-texto">MINHA VIDA</div>
+    </div>
+    <div class="foto">
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="burstHearts(event)" />
+      <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
+    </div>
+  </div>
+
+  <script>
+    const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
+
+    function createEmojiHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('emoji-heart');
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
+      heart.style.animationDelay = (Math.random() * 10) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 20000);
+    }
+
+    for(let i=0; i<30; i++) {
+      setTimeout(createEmojiHeart, i * 300);
+    }
+    setInterval(createEmojiHeart, 1500);
+
+    function burstHearts(event) {
+      for (let i = 0; i < 10; i++) {
+        let heart = document.createElement("div");
+        heart.className = "click-heart";
+        heart.style.left = (event.clientX + Math.random() * 40 - 20) + "px";
+        heart.style.top = (event.clientY + Math.random() * 40 - 20) + "px";
+        heart.style.animation = "burst 1s ease-out forwards";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .click-heart {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: url('https://i.imgur.com/Qp1B7Y2.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+      }
+      @keyframes burst {
+        0% {
+          transform: scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    function atualizarContador() {
+      const inicio = new Date("2018-05-20T00:03:00");
+      const agora = new Date();
+      let diff = agora - inicio;
+
+      const segundos = Math.floor(diff / 1000) % 60;
+      const minutos = Math.floor(diff / (1000 * 60)) % 60;
+      const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      let anos = agora.getFullYear() - inicio.getFullYear();
+      let meses = agora.getMonth() - inicio.getMonth();
+      let diaMes = agora.get
