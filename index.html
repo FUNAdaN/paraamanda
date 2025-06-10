@@ -27,11 +27,8 @@
     }
 
     .contador {
-      position: fixed;
-      bottom: 10px;
-      left: 0;
-      right: 0;
-      font-size: 1.1em;
+      font-size: 1.2em;
+      margin-bottom: 20px;
       color: #ffd6f3;
     }
 
@@ -66,46 +63,22 @@
       margin-top: 10px;
     }
 
-    .emoji-heart {
+    .emoji-float {
       position: fixed;
       font-size: 24px;
-      animation: floatHeart linear infinite;
-      user-select: none;
       pointer-events: none;
-      opacity: 0.8;
+      animation: floatUp 2s ease-out forwards;
     }
 
-    @keyframes floatHeart {
+    @keyframes floatUp {
       0% {
-        transform: translateY(100vh) translateX(0) scale(1);
-        opacity: 0;
-      }
-      10% {
         opacity: 1;
+        transform: translateY(0) scale(1);
       }
       100% {
-        transform: translateY(-10vh) translateX(30px) scale(1.5);
         opacity: 0;
+        transform: translateY(-100px) scale(1.5);
       }
-    }
-
-    @keyframes rise {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-150px);
-        opacity: 0;
-      }
-    }
-
-    .click-heart {
-      position: absolute;
-      font-size: 24px;
-      animation: rise 1.2s ease-out forwards;
-      pointer-events: none;
-      user-select: none;
     }
   </style>
 </head>
@@ -115,82 +88,43 @@
 
   <div class="fotos-container">
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="burstHearts(event, '❤️')" />
+      <img src="foto1.jpg" alt="EU TE AMO" onclick="rainHearts(event, '💜')" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="burstHearts(event, '💙')" />
+      <img src="foto2.jpg" alt="DEMAIS" onclick="rainHearts(event, '💖')" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="burstHearts(event, '💜')" />
+      <img src="foto3.jpg" alt="MAIS QUE TUDO" onclick="rainHearts(event, '❤️')" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="burstHearts(event, '💛')" />
+      <img src="foto4.jpg" alt="MINHA VIDA" onclick="rainHearts(event, '💙')" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="burstHearts(event, '💚')" />
+      <img src="foto5.jpg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="rainHearts(event, '🧡')" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
 
-  <div class="contador" id="contador"></div>
-
   <script>
-    // Fundo: emojis flutuantes
-    const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
+    function rainHearts(event, emoji) {
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('emoji-float');
+        heart.textContent = emoji;
+        heart.style.left = `${event.clientX + (Math.random() * 100 - 50)}px`;
+        heart.style.top = `${event.clientY + (Math.random() * 100 - 50)}px`;
+        heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+        document.body.appendChild(heart);
 
-    function createFloatingHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('emoji-heart');
-      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
-      heart.style.animationDelay = (Math.random() * 10) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 20000);
-    }
-
-    for (let i = 0; i < 30; i++) {
-      setTimeout(createFloatingHeart, i * 300);
-    }
-    setInterval(createFloatingHeart, 1500);
-
-    // Clique nas fotos: explosão de corações
-    function burstHearts(event, emoji) {
-      const x = event.clientX;
-      const y = event.clientY;
-      for (let i = 0; i < 15; i++) {
-        const el = document.createElement('div');
-        el.classList.add('click-heart');
-        el.textContent = emoji;
-        el.style.left = (x + Math.random() * 60 - 30) + 'px';
-        el.style.top = (y + Math.random() * 60 - 30) + 'px';
-        el.style.position = 'absolute';
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 1200);
+        setTimeout(() => {
+          heart.remove();
+        }, 2000);
       }
     }
-
-    // Contador de dias, horas, minutos, segundos
-    function atualizarContador() {
-      const inicio = new Date("2018-05-20T00:03:00");
-      const agora = new Date();
-      let diff = agora - inicio;
-
-      const segundos = Math.floor(diff / 1000) % 60;
-      const minutos = Math.floor(diff / (1000 * 60)) % 60;
-      const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-      document.getElementById('contador').textContent = 
-        `Estamos juntos há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💘`;
-    }
-
-    setInterval(atualizarContador, 1000);
-    atualizarContador();
   </script>
 </body>
 </html>
