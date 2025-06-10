@@ -157,7 +157,7 @@
   <script>
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
-    // Criar corações flutuantes e piscando no fundo
+    // Função para criar corações flutuando e piscando ao fundo
     function createFloatingHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
@@ -166,15 +166,17 @@
       heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
       heart.style.animationDelay = (Math.random() * 10) + 's';
       document.body.appendChild(heart);
+      // Remove depois de 20s para não acumular
       setTimeout(() => heart.remove(), 20000);
     }
 
+    // Criar vários corações espaçados para efeito contínuo
     for(let i=0; i<30; i++) {
       setTimeout(createFloatingHeart, i * 300);
     }
     setInterval(createFloatingHeart, 1500);
 
-    // Atualizar contador do tempo juntos
+    // Função do contador do tempo juntos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
