@@ -13,6 +13,7 @@
       overflow-x: hidden;
       position: relative;
       min-height: 100vh;
+      transition: background-color 0.3s ease;
     }
 
     h1 {
@@ -58,16 +59,6 @@
     button a {
       color: white;
       text-decoration: none;
-    }
-
-    iframe.spotify-embed {
-      border-radius: 12px;
-      margin: 20px auto 40px;
-      width: 100%;
-      max-width: 400px;
-      height: 80px;
-      border: none;
-      display: block;
     }
 
     .fotos-container {
@@ -144,6 +135,44 @@
         gap: 15px;
       }
     }
+
+    /* efeito de brilho no fundo */
+    .flash-bg {
+      animation: flash 1s ease forwards;
+    }
+    @keyframes flash {
+      0% {
+        background-color: #1a1a1a;
+      }
+      50% {
+        background-color: #fff;
+      }
+      100% {
+        background-color: #1a1a1a;
+      }
+    }
+
+    /* estilo dos corações que aparecem no clique */
+    .click-heart {
+      position: fixed;
+      font-size: 20px;
+      pointer-events: none;
+      user-select: none;
+      animation: burst 1s ease forwards;
+      opacity: 1;
+      z-index: 10;
+      will-change: transform, opacity;
+    }
+    @keyframes burst {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-80px) scale(1.8);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -152,40 +181,33 @@
 
   <div class="contador" id="contador"></div>
 
-  <div class="buttons-container">
-    <button><a href="https://www.exemplo.com" target="_blank" rel="noopener noreferrer">Não clique aqui</a></button>
-  </div>
-
-  <!-- Botão oficial Spotify embed -->
-  <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/3ZQmGpTXbiT9YVQw0Tfi6O?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
   <div class="fotos-container">
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="burstHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="flashAndHearts(event)" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="burstHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="flashAndHearts(event)" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="burstHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="flashAndHearts(event)" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="burstHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="flashAndHearts(event)" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="burstHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="flashAndHearts(event)" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
 
   <script>
-    // Emojis corações flutuantes
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
+    // corações flutuantes normais
     function createEmojiHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
@@ -196,63 +218,52 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 20000);
     }
-
     for(let i=0; i<30; i++) {
       setTimeout(createEmojiHeart, i * 300);
     }
     setInterval(createEmojiHeart, 1500);
 
-    // Burst hearts ao clicar nas fotos
-    function burstHearts(event) {
-      for (let i = 0; i < 10; i++) {
-        let heart = document.createElement("div");
-        heart.className = "click-heart";
-        heart.style.left = (event.clientX + Math.random() * 40 - 20) + "px";
-        heart.style.top = (event.clientY + Math.random() * 40 - 20) + "px";
-        heart.style.animation = "burst 1s ease-out forwards";
+    // efeito flash + corações piscando ao clicar nas fotos
+    function flashAndHearts(event) {
+      // adiciona classe que faz o flash de brilho no body
+      document.body.classList.add('flash-bg');
+
+      // remove a classe após 1s pra resetar o efeito
+      setTimeout(() => {
+        document.body.classList.remove('flash-bg');
+      }, 1000);
+
+      // cria vários corações piscando espalhados aleatoriamente
+      for(let i=0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'click-heart';
+        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+        // posição aleatória na tela
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.top = Math.random() * window.innerHeight + 'px';
+
+        // animação com delay aleatório pra parecer piscando
+        heart.style.animationDelay = (Math.random() * 1000) + 'ms';
+
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 1000);
+
+        // remove depois que animação termina
+        setTimeout(() => heart.remove(), 1200);
       }
     }
 
-    // Estilos para burst hearts
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .click-heart {
-        position: fixed;
-        width: 20px;
-        height: 20px;
-        background: url('https://i.imgur.com/Qp1B7Y2.png') no-repeat center center;
-        background-size: contain;
-        pointer-events: none;
-        z-index: 10;
-      }
-      @keyframes burst {
-        0% {
-          transform: scale(0.5);
-          opacity: 1;
-        }
-        100% {
-          transform: scale(2);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Contador com anos, meses, dias, horas, minutos, segundos
+    // contador com anos, meses, dias, horas, minutos, segundos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
 
-      // Calcula anos, meses, dias
       let anos = agora.getFullYear() - inicio.getFullYear();
       let meses = agora.getMonth() - inicio.getMonth();
       let dias = agora.getDate() - inicio.getDate();
 
       if (dias < 0) {
         meses--;
-        // Pega dias do mês anterior
         const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
         dias += ultimoDiaMesAnterior;
       }
@@ -261,7 +272,6 @@
         meses += 12;
       }
 
-      // Calcula horas, minutos, segundos
       let horas = agora.getHours() - inicio.getHours();
       let minutos = agora.getMinutes() - inicio.getMinutes();
       let segundos = agora.getSeconds() - inicio.getSeconds();
