@@ -11,8 +11,8 @@
       color: white;
       text-align: center;
       overflow-x: hidden;
-      position: relative;
       min-height: 100vh;
+      position: relative;
     }
 
     h1 {
@@ -24,12 +24,6 @@
     p.mensagem {
       font-size: 1.3em;
       margin-bottom: 30px;
-    }
-
-    .contador {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-      color: #ffd6f3;
     }
 
     .fotos-container {
@@ -44,6 +38,7 @@
       flex: 1 1 45%;
       max-width: 300px;
       margin-bottom: 20px;
+      position: relative;
     }
 
     .foto img {
@@ -64,10 +59,10 @@
     }
 
     .emoji-float {
-      position: fixed;
-      font-size: 24px;
-      pointer-events: none;
+      position: absolute;
       animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
     }
 
     @keyframes floatUp {
@@ -88,37 +83,43 @@
 
   <div class="fotos-container">
     <div class="foto">
-      <img src="foto1.jpg" alt="EU TE AMO" onclick="rainHearts(event, '💜')" />
+      <img src="foto1.jpg" alt="EU TE AMO" onclick="rainHearts(this, '💜')" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="foto2.jpg" alt="DEMAIS" onclick="rainHearts(event, '💖')" />
+      <img src="foto2.jpg" alt="DEMAIS" onclick="rainHearts(this, '💖')" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="foto3.jpg" alt="MAIS QUE TUDO" onclick="rainHearts(event, '❤️')" />
+      <img src="foto3.jpg" alt="MAIS QUE TUDO" onclick="rainHearts(this, '❤️')" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="foto4.jpg" alt="MINHA VIDA" onclick="rainHearts(event, '💙')" />
+      <img src="foto4.jpg" alt="MINHA VIDA" onclick="rainHearts(this, '💙')" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="foto5.jpg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="rainHearts(event, '🧡')" />
+      <img src="foto5.jpg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="rainHearts(this, '🧡')" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
 
   <script>
-    function rainHearts(event, emoji) {
+    function rainHearts(element, emoji) {
+      const rect = element.getBoundingClientRect();
+      const container = document.body;
+
       for (let i = 0; i < 30; i++) {
         const heart = document.createElement('div');
         heart.classList.add('emoji-float');
         heart.textContent = emoji;
-        heart.style.left = `${event.clientX + (Math.random() * 100 - 50)}px`;
-        heart.style.top = `${event.clientY + (Math.random() * 100 - 50)}px`;
+        heart.style.left = `${rect.left + element.offsetWidth / 2 + (Math.random() * 60 - 30)}px`;
+        heart.style.top = `${rect.top + window.scrollY + element.offsetHeight / 2}px`;
         heart.style.fontSize = `${Math.random() * 20 + 20}px`;
-        document.body.appendChild(heart);
+        heart.style.position = 'absolute';
+        heart.style.zIndex = 1000;
+
+        container.appendChild(heart);
 
         setTimeout(() => {
           heart.remove();
