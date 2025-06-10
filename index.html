@@ -62,11 +62,12 @@
 
     iframe.spotify-embed {
       border-radius: 12px;
-      margin-top: 20px;
+      margin: 20px auto 40px;
       width: 100%;
       max-width: 400px;
       height: 80px;
       border: none;
+      display: block;
     }
 
     .fotos-container {
@@ -107,6 +108,7 @@
       user-select: none;
       pointer-events: none;
       opacity: 0.8;
+      z-index: 5;
     }
 
     @keyframes floatHeart {
@@ -154,8 +156,8 @@
     <button><a href="https://www.exemplo.com" target="_blank" rel="noopener noreferrer">Não clique aqui</a></button>
   </div>
 
-  <!-- Spotify embed -->
-  <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/4vlVxdnrgXQFZzopvH4vSv?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  <!-- Botão oficial Spotify embed -->
+  <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/3ZQmGpTXbiT9YVQw0Tfi6O?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
   <div class="fotos-container">
     <div class="foto">
@@ -181,6 +183,7 @@
   </div>
 
   <script>
+    // Emojis corações flutuantes
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
     function createEmojiHeart() {
@@ -199,6 +202,7 @@
     }
     setInterval(createEmojiHeart, 1500);
 
+    // Burst hearts ao clicar nas fotos
     function burstHearts(event) {
       for (let i = 0; i < 10; i++) {
         let heart = document.createElement("div");
@@ -211,6 +215,7 @@
       }
     }
 
+    // Estilos para burst hearts
     const style = document.createElement('style');
     style.innerHTML = `
       .click-heart {
@@ -220,6 +225,7 @@
         background: url('https://i.imgur.com/Qp1B7Y2.png') no-repeat center center;
         background-size: contain;
         pointer-events: none;
+        z-index: 10;
       }
       @keyframes burst {
         0% {
@@ -234,17 +240,61 @@
     `;
     document.head.appendChild(style);
 
+    // Contador com anos, meses, dias, horas, minutos, segundos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
-      let diff = agora - inicio;
 
-      const segundos = Math.floor(diff / 1000) % 60;
-      const minutos = Math.floor(diff / (1000 * 60)) % 60;
-      const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-
+      // Calcula anos, meses, dias
       let anos = agora.getFullYear() - inicio.getFullYear();
       let meses = agora.getMonth() - inicio.getMonth();
-      let diaMes = agora.get
-      "a"
+      let dias = agora.getDate() - inicio.getDate();
+
+      if (dias < 0) {
+        meses--;
+        // Pega dias do mês anterior
+        const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+        dias += ultimoDiaMesAnterior;
+      }
+      if (meses < 0) {
+        anos--;
+        meses += 12;
+      }
+
+      // Calcula horas, minutos, segundos
+      let horas = agora.getHours() - inicio.getHours();
+      let minutos = agora.getMinutes() - inicio.getMinutes();
+      let segundos = agora.getSeconds() - inicio.getSeconds();
+
+      if (segundos < 0) {
+        minutos--;
+        segundos += 60;
+      }
+      if (minutos < 0) {
+        horas--;
+        minutos += 60;
+      }
+      if (horas < 0) {
+        dias--;
+        horas += 24;
+        if (dias < 0) {
+          meses--;
+          const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+          dias += ultimoDiaMesAnterior;
+          if (meses < 0) {
+            anos--;
+            meses += 12;
+          }
+        }
+      }
+
+      document.getElementById('contador').textContent =
+        `Tempo juntos: ${anos} ano${anos !== 1 ? 's' : ''}, ${meses} mês${meses !== 1 ? 'es' : ''}, ${dias} dia${dias !== 1 ? 's' : ''}, ` +
+        `${horas.toString().padStart(2,'0')}h : ${minutos.toString().padStart(2,'0')}m : ${segundos.toString().padStart(2,'0')}s`;
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+  </script>
+</body>
+</html>
