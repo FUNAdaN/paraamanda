@@ -11,9 +11,11 @@
       color: white;
       text-align: center;
       overflow-x: hidden;
-      position: relative;
       min-height: 100vh;
-      transition: background-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
     }
 
     h1 {
@@ -25,40 +27,6 @@
     p.mensagem {
       font-size: 1.3em;
       margin-bottom: 30px;
-    }
-
-    .contador {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-      color: #ffd6f3;
-    }
-
-    .buttons-container {
-      margin: 20px 0 40px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background-color: #ff66cc;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 1.1em;
-      padding: 12px 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #ff33aa;
-    }
-
-    button a {
-      color: white;
-      text-decoration: none;
     }
 
     .fotos-container {
@@ -92,28 +60,21 @@
       margin-top: 10px;
     }
 
-    .emoji-heart {
+    /* contador fixado embaixo */
+    .contador {
       position: fixed;
-      font-size: 24px;
-      animation: floatHeart linear infinite;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2em;
+      background: rgba(255, 102, 204, 0.2);
+      padding: 8px 20px;
+      border-radius: 20px;
+      color: #ffd6f3;
+      box-shadow: 0 0 10px #ff66ccaa;
+      z-index: 100;
       user-select: none;
-      pointer-events: none;
-      opacity: 0.8;
-      z-index: 5;
-    }
-
-    @keyframes floatHeart {
-      0% {
-        transform: translateY(100vh) translateX(0) scale(1);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) translateX(30px) scale(1.5);
-        opacity: 0;
-      }
+      font-weight: bold;
     }
 
     @media (max-width: 600px) {
@@ -129,47 +90,36 @@
       p.mensagem {
         font-size: 1em;
       }
-
-      .buttons-container {
-        flex-direction: column;
-        gap: 15px;
-      }
     }
 
-    /* efeito de brilho no fundo */
-    .flash-bg {
-      animation: flash 1s ease forwards;
-    }
-    @keyframes flash {
-      0% {
-        background-color: #1a1a1a;
-      }
-      50% {
-        background-color: #fff;
-      }
-      100% {
-        background-color: #1a1a1a;
-      }
-    }
-
-    /* estilo dos corações que aparecem no clique */
-    .click-heart {
+    /* Corações flutuando e piscando no fundo */
+    .emoji-heart {
       position: fixed;
       font-size: 20px;
+      animation-name: floatAndBlink;
+      animation-iteration-count: infinite;
       pointer-events: none;
       user-select: none;
-      animation: burst 1s ease forwards;
-      opacity: 1;
-      z-index: 10;
-      will-change: transform, opacity;
+      opacity: 0.8;
+      z-index: 0;
     }
-    @keyframes burst {
+
+    @keyframes floatAndBlink {
       0% {
-        transform: translateY(0) scale(1);
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      90% {
         opacity: 1;
       }
       100% {
-        transform: translateY(-80px) scale(1.8);
+        transform: translateY(-10vh) translateX(30px) scale(1.5);
         opacity: 0;
       }
     }
@@ -179,36 +129,36 @@
   <h1>FELIZ DIA DOS NAMORADOS MEU AMOR</h1>
   <p class="mensagem">HOJE SOMOS NOIVOS AMANDA MAS SIM SEREMOS ETERNOS NAMORADOS</p>
 
-  <div class="contador" id="contador"></div>
-
   <div class="fotos-container">
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="flashAndHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="flashAndHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="flashAndHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="flashAndHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="flashAndHearts(event)" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
 
+  <div class="contador" id="contador"></div>
+
   <script>
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
-    // corações flutuantes normais
-    function createEmojiHeart() {
+    // Função para criar corações flutuando e piscando ao fundo
+    function createFloatingHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
       heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
@@ -216,44 +166,17 @@
       heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
       heart.style.animationDelay = (Math.random() * 10) + 's';
       document.body.appendChild(heart);
+      // Remove depois de 20s para não acumular
       setTimeout(() => heart.remove(), 20000);
     }
+
+    // Criar vários corações espaçados para efeito contínuo
     for(let i=0; i<30; i++) {
-      setTimeout(createEmojiHeart, i * 300);
+      setTimeout(createFloatingHeart, i * 300);
     }
-    setInterval(createEmojiHeart, 1500);
+    setInterval(createFloatingHeart, 1500);
 
-    // efeito flash + corações piscando ao clicar nas fotos
-    function flashAndHearts(event) {
-      // adiciona classe que faz o flash de brilho no body
-      document.body.classList.add('flash-bg');
-
-      // remove a classe após 1s pra resetar o efeito
-      setTimeout(() => {
-        document.body.classList.remove('flash-bg');
-      }, 1000);
-
-      // cria vários corações piscando espalhados aleatoriamente
-      for(let i=0; i < 30; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'click-heart';
-        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-
-        // posição aleatória na tela
-        heart.style.left = Math.random() * window.innerWidth + 'px';
-        heart.style.top = Math.random() * window.innerHeight + 'px';
-
-        // animação com delay aleatório pra parecer piscando
-        heart.style.animationDelay = (Math.random() * 1000) + 'ms';
-
-        document.body.appendChild(heart);
-
-        // remove depois que animação termina
-        setTimeout(() => heart.remove(), 1200);
-      }
-    }
-
-    // contador com anos, meses, dias, horas, minutos, segundos
+    // Função do contador do tempo juntos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
@@ -308,4 +231,3 @@
   </script>
 </body>
 </html>
-a
