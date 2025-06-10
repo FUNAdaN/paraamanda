@@ -60,7 +60,6 @@
       margin-top: 10px;
     }
 
-    /* contador fixado embaixo */
     .contador {
       position: fixed;
       bottom: 10px;
@@ -92,7 +91,6 @@
       }
     }
 
-    /* Corações flutuando e piscando no fundo */
     .emoji-heart {
       position: fixed;
       font-size: 20px;
@@ -123,6 +121,17 @@
         opacity: 0;
       }
     }
+
+    @keyframes subir {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -131,23 +140,23 @@
 
   <div class="fotos-container">
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="burstHearts(event, '💜')" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="burstHearts(event, '💗')" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="burstHearts(event, '💛')" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="burstHearts(event, '💙')" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="burstHearts(event, '🧡')" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
@@ -157,7 +166,6 @@
   <script>
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
-    // Função para criar corações flutuando e piscando ao fundo
     function createFloatingHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
@@ -166,17 +174,14 @@
       heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
       heart.style.animationDelay = (Math.random() * 10) + 's';
       document.body.appendChild(heart);
-      // Remove depois de 20s para não acumular
       setTimeout(() => heart.remove(), 20000);
     }
 
-    // Criar vários corações espaçados para efeito contínuo
     for(let i=0; i<30; i++) {
       setTimeout(createFloatingHeart, i * 300);
     }
     setInterval(createFloatingHeart, 1500);
 
-    // Função do contador do tempo juntos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
@@ -228,6 +233,23 @@
 
     atualizarContador();
     setInterval(atualizarContador, 1000);
+
+    function burstHearts(event, emoji) {
+      const quantidade = 15;
+      for (let i = 0; i < quantidade; i++) {
+        const heart = document.createElement('div');
+        heart.textContent = emoji;
+        heart.style.position = 'fixed';
+        heart.style.left = `${event.clientX + (Math.random() * 100 - 50)}px`;
+        heart.style.top = `${event.clientY + (Math.random() * 100 - 50)}px`;
+        heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+        heart.style.animation = 'subir 1s ease-out forwards';
+        heart.style.opacity = 1;
+        heart.style.zIndex = 1000;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+    }
   </script>
 </body>
 </html>
