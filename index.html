@@ -11,11 +11,8 @@
       color: white;
       text-align: center;
       overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       position: relative;
+      min-height: 100vh;
     }
 
     h1 {
@@ -27,6 +24,15 @@
     p.mensagem {
       font-size: 1.3em;
       margin-bottom: 30px;
+    }
+
+    .contador {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      font-size: 1.1em;
+      color: #ffd6f3;
     }
 
     .fotos-container {
@@ -60,51 +66,16 @@
       margin-top: 10px;
     }
 
-    /* contador fixado embaixo */
-    .contador {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.2em;
-      background: rgba(255, 102, 204, 0.2);
-      padding: 8px 20px;
-      border-radius: 20px;
-      color: #ffd6f3;
-      box-shadow: 0 0 10px #ff66ccaa;
-      z-index: 100;
-      user-select: none;
-      font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-      .foto {
-        flex: 1 1 40%;
-        max-width: 140px;
-      }
-
-      h1 {
-        font-size: 2em;
-      }
-
-      p.mensagem {
-        font-size: 1em;
-      }
-    }
-
-    /* Corações flutuando e piscando no fundo */
     .emoji-heart {
       position: fixed;
-      font-size: 20px;
-      animation-name: floatAndBlink;
-      animation-iteration-count: infinite;
-      pointer-events: none;
+      font-size: 24px;
+      animation: floatHeart linear infinite;
       user-select: none;
+      pointer-events: none;
       opacity: 0.8;
-      z-index: 0;
     }
 
-    @keyframes floatAndBlink {
+    @keyframes floatHeart {
       0% {
         transform: translateY(100vh) translateX(0) scale(1);
         opacity: 0;
@@ -112,16 +83,29 @@
       10% {
         opacity: 1;
       }
-      50% {
-        opacity: 0.5;
-      }
-      90% {
-        opacity: 1;
-      }
       100% {
         transform: translateY(-10vh) translateX(30px) scale(1.5);
         opacity: 0;
       }
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px);
+        opacity: 0;
+      }
+    }
+
+    .click-heart {
+      position: absolute;
+      font-size: 24px;
+      animation: rise 1.2s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
     }
   </style>
 </head>
@@ -131,23 +115,23 @@
 
   <div class="fotos-container">
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02.jpeg" alt="EU TE AMO" onclick="burstHearts(event, '❤️')" />
       <div class="foto-texto">EU TE AMO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (1).jpeg" alt="DEMAIS" onclick="burstHearts(event, '💙')" />
       <div class="foto-texto">DEMAIS</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (2).jpeg" alt="MAIS QUE TUDO" onclick="burstHearts(event, '💜')" />
       <div class="foto-texto">MAIS QUE TUDO</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (3).jpeg" alt="MINHA VIDA" onclick="burstHearts(event, '💛')" />
       <div class="foto-texto">MINHA VIDA</div>
     </div>
     <div class="foto">
-      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" />
+      <img src="WhatsApp Image 2025-06-10 at 15.21.02 (4).jpeg" alt="FELIZ 8º DIA DOS NAMORADOS JUNTOS" onclick="burstHearts(event, '💚')" />
       <div class="foto-texto">FELIZ 8º DIA DOS NAMORADOS JUNTOS</div>
     </div>
   </div>
@@ -155,9 +139,9 @@
   <div class="contador" id="contador"></div>
 
   <script>
+    // Fundo: emojis flutuantes
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
 
-    // Função para criar corações flutuando e piscando ao fundo
     function createFloatingHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
@@ -166,68 +150,47 @@
       heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
       heart.style.animationDelay = (Math.random() * 10) + 's';
       document.body.appendChild(heart);
-      // Remove depois de 20s para não acumular
       setTimeout(() => heart.remove(), 20000);
     }
 
-    // Criar vários corações espaçados para efeito contínuo
-    for(let i=0; i<30; i++) {
+    for (let i = 0; i < 30; i++) {
       setTimeout(createFloatingHeart, i * 300);
     }
     setInterval(createFloatingHeart, 1500);
 
-    // Função do contador do tempo juntos
+    // Clique nas fotos: explosão de corações
+    function burstHearts(event, emoji) {
+      const x = event.clientX;
+      const y = event.clientY;
+      for (let i = 0; i < 15; i++) {
+        const el = document.createElement('div');
+        el.classList.add('click-heart');
+        el.textContent = emoji;
+        el.style.left = (x + Math.random() * 60 - 30) + 'px';
+        el.style.top = (y + Math.random() * 60 - 30) + 'px';
+        el.style.position = 'absolute';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1200);
+      }
+    }
+
+    // Contador de dias, horas, minutos, segundos
     function atualizarContador() {
       const inicio = new Date("2018-05-20T00:03:00");
       const agora = new Date();
+      let diff = agora - inicio;
 
-      let anos = agora.getFullYear() - inicio.getFullYear();
-      let meses = agora.getMonth() - inicio.getMonth();
-      let dias = agora.getDate() - inicio.getDate();
+      const segundos = Math.floor(diff / 1000) % 60;
+      const minutos = Math.floor(diff / (1000 * 60)) % 60;
+      const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-      if (dias < 0) {
-        meses--;
-        const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-        dias += ultimoDiaMesAnterior;
-      }
-      if (meses < 0) {
-        anos--;
-        meses += 12;
-      }
-
-      let horas = agora.getHours() - inicio.getHours();
-      let minutos = agora.getMinutes() - inicio.getMinutes();
-      let segundos = agora.getSeconds() - inicio.getSeconds();
-
-      if (segundos < 0) {
-        minutos--;
-        segundos += 60;
-      }
-      if (minutos < 0) {
-        horas--;
-        minutos += 60;
-      }
-      if (horas < 0) {
-        dias--;
-        horas += 24;
-        if (dias < 0) {
-          meses--;
-          const ultimoDiaMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
-          dias += ultimoDiaMesAnterior;
-          if (meses < 0) {
-            anos--;
-            meses += 12;
-          }
-        }
-      }
-
-      document.getElementById('contador').textContent =
-        `Tempo juntos: ${anos} ano${anos !== 1 ? 's' : ''}, ${meses} mês${meses !== 1 ? 'es' : ''}, ${dias} dia${dias !== 1 ? 's' : ''}, ` +
-        `${horas.toString().padStart(2,'0')}h : ${minutos.toString().padStart(2,'0')}m : ${segundos.toString().padStart(2,'0')}s`;
+      document.getElementById('contador').textContent = 
+        `Estamos juntos há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💘`;
     }
 
-    atualizarContador();
     setInterval(atualizarContador, 1000);
+    atualizarContador();
   </script>
 </body>
 </html>
