@@ -62,7 +62,7 @@
 
     .contador {
       position: fixed;
-      bottom: 10px;
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 1.2em;
@@ -74,6 +74,28 @@
       z-index: 100;
       user-select: none;
       font-weight: bold;
+    }
+
+    .botao-perigo {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff3399;
+      color: white;
+      border: 2px solid white;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 101;
+      transition: all 0.3s ease;
+    }
+
+    .botao-perigo:hover {
+      background-color: #ff66b2;
+      transform: translateX(-50%) scale(1.05);
     }
 
     @media (max-width: 600px) {
@@ -162,6 +184,7 @@
   </div>
 
   <div class="contador" id="contador"></div>
+  <button class="botao-perigo" onclick="alert('Eu disse para não clicar 😜')">NÃO CLICAR</button>
 
   <script>
     const heartEmojis = ['❤️', '💖', '💘', '💕', '💗', '💓', '💞', '❣️', '💝'];
@@ -169,7 +192,7 @@
     function createFloatingHeart() {
       const heart = document.createElement('div');
       heart.classList.add('emoji-heart');
-      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.textContent = '❤️';
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
       heart.style.animationDelay = (Math.random() * 10) + 's';
